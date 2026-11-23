@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clarity CRM — Modern Lead Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span>clarity</span><span class="logo-accent">crm</span>
+          </div>
+          <span class="badge-pro">PRO</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <p class="sidebar-heading">MAIN MENU</p>
+        <a href="#" class="nav-item active" data-nav="overview">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="9" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+            <rect x="14" y="12" width="7" height="9" rx="1.5"></rect>
+            <rect x="3" y="16" width="7" height="5" rx="1.5"></rect>
+          </svg>
+          <span>Dashboard</span>
+          <span class="nav-pill" id="navLeadCount">0</span>
+        </a>
+        <a href="#pipeline" class="nav-item" data-nav="leads">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>All Leads</span>
+        </a>
+      </div>
+
+      <!-- Pipeline Widget -->
+      <div class="sidebar-widget">
+        <div class="widget-header">
+          <span class="widget-title">Conversion Goal</span>
+          <span class="widget-rate" id="widgetRate">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="widgetProgress" style="width: 0%"></div>
+        </div>
+        <p class="widget-subtitle"><span id="widgetConverted">0</span> of <span id="widgetTotal">0</span> leads converted</p>
+      </div>
+
+      <!-- User Profile -->
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar">AR</div>
+          <div class="user-info">
+            <div class="user-name">Alex Rivera</div>
+            <div class="user-role">Sales Director</div>
+          </div>
+          <span class="status-indicator" title="Online"></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Bar / Header -->
+      <header class="top-header">
+        <div class="header-content">
+          <div class="header-eyebrow">
+            <span class="live-dot"></span>
+            <span>PIPELINE OVERVIEW</span>
+            <span class="header-date" id="currentDate"></span>
+          </div>
+          <h1 class="header-title">Welcome back, Alex</h1>
+          <p class="header-desc">Track your inquiries, engage prospective clients, and drive conversions in real time.</p>
+        </div>
+
+        <div class="header-actions">
+          <button id="themeToggle" class="btn btn-secondary theme-toggle-btn" title="Toggle Eye-Care Night/Day Mode">
+            <svg class="theme-icon sun-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="theme-icon moon-icon hidden" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <span id="themeLabel">Night Mode</span>
+          </button>
+
+          <button id="exportBtn" class="btn btn-secondary" title="Export leads as CSV spreadsheet">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Export CSV</span>
+          </button>
+
+          <button id="addTop" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Lead</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Key Performance Indicators (Cards) -->
+      <section class="stats-grid">
+        <!-- Total Leads -->
+        <div class="stat-card stat-total">
+          <div class="stat-header">
+            <div class="stat-icon-wrap icon-blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <span class="stat-badge badge-blue">Active Pipeline</span>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Total Leads</span>
+            <div class="stat-value" id="total">0</div>
+          </div>
+          <div class="stat-footer">
+            <span class="stat-trend positive">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              All captured leads
+            </span>
+          </div>
+        </div>
+
+        <!-- New Leads -->
+        <div class="stat-card stat-new">
+          <div class="stat-header">
+            <div class="stat-icon-wrap icon-amber">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <span class="stat-badge badge-amber">Action Required</span>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">New Inquiries</span>
+            <div class="stat-value" id="new">0</div>
+          </div>
+          <div class="stat-footer">
+            <span class="stat-hint">Waiting for initial outreach</span>
+          </div>
+        </div>
+
+        <!-- Contacted Leads -->
+        <div class="stat-card stat-contacted">
+          <div class="stat-header">
+            <div class="stat-icon-wrap icon-purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <span class="stat-badge badge-purple">In Progress</span>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Contacted</span>
+            <div class="stat-value" id="contacted">0</div>
+          </div>
+          <div class="stat-footer">
+            <span class="stat-hint">Active negotiations & follow-ups</span>
+          </div>
+        </div>
+
+        <!-- Converted Customers -->
+        <div class="stat-card stat-converted">
+          <div class="stat-header">
+            <div class="stat-icon-wrap icon-emerald">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <span class="stat-badge badge-emerald" id="conversionRate">0% Rate</span>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Converted Wins</span>
+            <div class="stat-value" id="converted">0</div>
+          </div>
+          <div class="stat-footer">
+            <span class="stat-trend positive">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              Deals won & onboarded
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Lead Management Panel -->
+      <section class="panel" id="pipeline">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <div class="panel-title-row">
+              <h2 class="panel-title">Lead Management</h2>
+              <span class="panel-count-badge" id="tableBadge">0 leads</span>
+            </div>
+            <p class="panel-subtitle">Search, filter, edit, and keep track of your prospect conversations.</p>
+          </div>
+
+          <div class="panel-quick-actions">
+            <button id="addMobile" class="btn btn-primary mobile-only-btn">＋ Add Lead</button>
+          </div>
+        </div>
+
+        <!-- Filter Tabs & Search Controls -->
+        <div class="controls-bar">
+          <!-- Segmented Filter Pills -->
+          <div class="filter-tabs" id="statusTabs">
+            <button class="tab-btn active" data-status="">
+              <span>All</span>
+              <span class="tab-badge" id="tabAll">0</span>
+            </button>
+            <button class="tab-btn" data-status="New">
+              <span class="dot-indicator dot-new"></span>
+              <span>New</span>
+              <span class="tab-badge" id="tabNew">0</span>
+            </button>
+            <button class="tab-btn" data-status="Contacted">
+              <span class="dot-indicator dot-contacted"></span>
+              <span>Contacted</span>
+              <span class="tab-badge" id="tabContacted">0</span>
+            </button>
+            <button class="tab-btn" data-status="Converted">
+              <span class="dot-indicator dot-converted"></span>
+              <span>Converted</span>
+              <span class="tab-badge" id="tabConverted">0</span>
+            </button>
+          </div>
+
+          <!-- Search & Select Dropdown -->
+          <div class="search-group">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input id="search" type="text" placeholder="Search by name, email, or company..." autocomplete="off">
+              <button id="clearSearch" class="clear-search-btn hidden" title="Clear search">×</button>
+            </div>
+
+            <div class="select-wrapper">
+              <select id="filter">
+                <option value="">All Statuses</option>
+                <option value="New">New</option>
+                <option value="Contacted">Contacted</option>
+                <option value="Converted">Converted</option>
+              </select>
+              <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leads Table -->
+        <div class="table-container">
+          <table class="leads-table">
+            <thead>
+              <tr>
+                <th class="th-contact">CONTACT & EMAIL</th>
+                <th class="th-business">COMPANY</th>
+                <th class="th-phone">PHONE NUMBER</th>
+                <th class="th-status">PIPELINE STATUS</th>
+                <th class="th-actions">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="rows">
+              <tr>
+                <td colspan="5" class="table-loading">
+                  <div class="loading-spinner"></div>
+                  <span>Loading your leads...</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Panel Footer -->
+        <div class="panel-footer">
+          <div class="footer-count" id="count">Showing 0 leads</div>
+          <div class="footer-tip">
+            <span>Tip: Click <b>Edit</b> to update status or customer contact info anytime.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- App Footer -->
+      <footer class="app-footer">
+        <p>Clarity CRM Dashboard · Modern Sales Pipeline · SQLite Powered</p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Create / Edit Lead Modal -->
+  <div class="modal-overlay hidden" id="overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <line x1="19" y1="8" x2="19" y2="14"></line>
+              <line x1="22" y1="11" x2="16" y2="11"></line>
+            </svg>
+          </div>
+          <div>
+            <h3 class="modal-title" id="formTitle">Add a new lead</h3>
+            <p class="modal-subtitle">Fill in the details below to update your pipeline records.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="close" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="leadForm" class="modal-form">
+        <input type="hidden" id="leadId">
+
+        <div class="form-row">
+          <label class="form-label" for="name">
+            <span>Full Name</span>
+            <span class="required">*</span>
+          </label>
+          <div class="input-icon-wrapper">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input id="name" type="text" required placeholder="e.g. Sophia Chen">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="email">
+            <span>Email Address</span>
+            <span class="required">*</span>
+          </label>
+          <div class="input-icon-wrapper">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <input id="email" type="email" required placeholder="e.g. sophia@example.com">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-row">
+            <label class="form-label" for="phone">
+              <span>Phone Number</span>
+              <span class="required">*</span>
+            </label>
+            <div class="input-icon-wrapper">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <input id="phone" type="tel" required placeholder="e.g. +1 (555) 234-8901">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="business">
+              <span>Business / Company</span>
+              <span class="required">*</span>
+            </label>
+            <div class="input-icon-wrapper">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <input id="business" type="text" required placeholder="e.g. Apex Digital">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="status">
+            <span>Lead Status</span>
+          </label>
+          <div class="select-wrapper">
+            <select id="status">
+              <option value="New">New (Awaiting contact)</option>
+              <option value="Contacted">Contacted (In discussion)</option>
+              <option value="Converted">Converted (Customer won)</option>
+            </select>
+            <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+
+        <div id="error" class="form-error-banner hidden"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save">Save Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div id="toast" class="toast">
+    <div class="toast-icon" id="toastIcon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <span class="toast-message" id="toastMsg">Action completed</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

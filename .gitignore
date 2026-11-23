@@ -1,0 +1,6 @@
+node_modules/
+crm.sqlite
+crm.sqlite-shm
+crm.sqlite-wal
+.env
+.DS_Store
