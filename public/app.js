@@ -152,7 +152,10 @@ async function leads() {
   // Toggle clear search button
   $('clearSearch').classList.toggle('hidden', !searchVal);
 
-  tbody.innerHTML = `<tr><td colspan="5" class="table-loading"><div class="loading-spinner"></div><span>Updating pipeline...</span></td></tr>`;
+  // Only show loading state if table is empty
+  if (!tbody.children.length || tbody.querySelector('.table-loading')) {
+    tbody.innerHTML = `<tr><td colspan="5" class="table-loading"><div class="loading-spinner"></div><span>Loading leads...</span></td></tr>`;
+  }
 
   try {
     const q = new URLSearchParams({ search: searchVal, status: statusVal });
@@ -444,20 +447,6 @@ if ($('currentDate')) {
   const now = new Date();
   $('currentDate').textContent = '· ' + now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 }
-
-// Auto-fetch on window focus & live background sync
-window.addEventListener('focus', () => {
-  refresh();
-});
-
-// Periodic live sync (every 5 seconds when tab is active and modal is closed)
-setInterval(() => {
-  const isModalOpen = !$('overlay').classList.contains('hidden');
-  const isSearching = document.activeElement === $('search');
-  if (!document.hidden && !isModalOpen && !isSearching) {
-    refresh();
-  }
-}, 5000);
 
 // Initial load
 refresh();
